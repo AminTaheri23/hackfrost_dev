@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block title %}contact{% endblock %}
+{% block content%}
+<h1>Any thoughts? Contact me :)</h1>
+
+<form
+  action= {{api}}
+  method="POST"
+>
+<div>
+  <label>
+    Your email:
+    <input type="email" name="_replyto">
+  </label>
+</div>
+<div>
+  <label>
+    Your message:
+    <textarea name="message"></textarea>
+  </label>
+</div>
+  <!-- your other form fields go here -->
+
+  <button type="submit">Send</button>
+</form>
+{% endblock%}
