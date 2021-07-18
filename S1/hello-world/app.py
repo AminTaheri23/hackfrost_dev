@@ -28,4 +28,6 @@ def hello_world():
 @app.route("/template")
 def hello_world_template():
     return render_template("hello.html") # Hello world with template
-    
+
+if __name__ == "__main__":
+    app.run(debug=True)
