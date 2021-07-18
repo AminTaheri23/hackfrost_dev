@@ -8,3 +8,6 @@ app = Flask(__name__)
 @app.route("/")
 def hello_world():
     return render_template("hello.html") #hello world
+
+#To activate the debugger: 
+# export FLASK_ENV=development
