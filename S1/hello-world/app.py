@@ -10,7 +10,14 @@ from markupsafe import escape
 
 app = Flask(__name__)
 
-@app.route("/<name>")
+@app.route("/<name>") # to use vairiables and pass them to functino we use <Variable> notatino, 
+# Also, if you want to convert the variable we can use for example, <string:Variable> or <int:Variable>
+# Kinds of converter 
+# string = (default) accepts any text without a slash
+# int = accepts positive integers
+# float = accepts positive floating point values
+# path = like string but also accepts slashes
+# uuid = accepts UUID strings
 def hello_world_escape(name):
     return f"Hello, {escape(name)}" # escaping will prevent script injectino attacks!
     
@@ -20,5 +27,5 @@ def hello_world():
 
 @app.route("/template")
 def hello_world_template():
-    return render_template("template/hello.html") # Hello world with template
+    return render_template("hello.html") # Hello world with template
     
