@@ -3,4 +3,12 @@
 {% block content %}
 <div id="about">
     <h1>Hello, I am {{ Myname }}</h1>
+</div> 
+<div>
+    <ul>
+        {% for food in list_of_food %}
+            <li>{{food[0]}}</li>
+        {% endfor %}
+    </ul>
+</div>
 {% endblock %}
