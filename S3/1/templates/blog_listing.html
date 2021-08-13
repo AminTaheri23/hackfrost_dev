@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block title %}Blog{% endblock %}
+{% block content %}
+<div id="blog">
+    <h1>Blog</h1>
+    <ul>
+    {% for post in blog_p %}
+        <a href="/blog/{{ post['name'] }}">
+            <li>{{ post.name }} - {{ post.date.strftime("%B %d, %Y") }}</li>
+        </a>
+    {% endfor %}
+    </ul>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block title %}{{ post['name'] }}{% endblock %}
+{% block content %}
+<div id="blog">
+    <!-- <h1>Hello, I am {{ Myname }} and This is blog</h1> -->
+    Created: {{ post.date.strftime("%B %d, %Y")  }}
+    </hr>
+</div>
+<div>
+    {{ post['html'] | safe }}
+</div>
+{% endblock %}
