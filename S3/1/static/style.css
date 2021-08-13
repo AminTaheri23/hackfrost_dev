@@ -1,0 +1,83 @@
+/* body */
+body {
+    padding: 0 0 0 0rem;
+    background-color: #033335;
+    margin: 0mm;
+}
+/* Navigation bar */
+nav {
+	border-bottom: 2px solid black;
+	margin-bottom: 2rem;
+    background-color: #083b3e;
+}
+
+nav p {
+	display: inline-block;
+    margin-left: 2rem;
+	margin-right: 2rem;
+	font-weight: 800;
+    color: rgb(255, 255, 255);
+}
+
+nav ul {
+	float: right;
+	list-style-type: none;
+	padding-left: 0;
+    margin: 0mm;
+}
+
+nav ul li {
+	display: inline-block;
+	/* margin-left: 1rem; */
+    /* text-decoration-skip-ink: initial; */
+}
+
+/* nav a:link, a:visited  {
+    background-color:#083b3e;
+    border: none;
+    color: #FFFFFF;
+    padding: 15px 32px;
+    text-align: center;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+nav a:hover, a:active {
+   background-color: #0a4c50;
+} */
+
+/* About html */
+.bio {
+    padding: 2rem;
+    text-align: center;
+}
+
+.bio img{
+    border: 2mm;
+    border-radius: 2mm;
+}
+
+.food {
+    border: 2rem;
+    text-align: left;
+}
+
+/* Profiles */
+
+.profiles {
+	margin: 2rem 0 2rem 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.profiles i {
+	margin: 0 1rem;
+}
+.profiles a {
+	text-decoration: none;
+	color: black;
+}

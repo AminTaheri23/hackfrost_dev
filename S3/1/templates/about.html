@@ -1,10 +1,11 @@
 {% extends "layout.html" %}
 {% block title %}About{% endblock %}
 {% block content %}
-<div id="about">
-    <h1>Hello, I am {{ Myname }}</h1>
+<div class = "bio" id="about">
+    <h1>The name is {{ Myname }}</h1>
+    <img src="https://amintaheri23.github.io/img/latest.jpg" width="300" height="300">
 </div> 
-<div>
+<div class="food">
     <ul>
         {% for food in list_of_food %}
             <li>{{food[0]}}</li>

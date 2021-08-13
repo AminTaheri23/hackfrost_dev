@@ -9,8 +9,6 @@ from pathlib import Path
 import markdown
 import sqlite3
 
-# sys.path.append("S3/1/blog")
-
 db_connection = sqlite3.connect("./database.db")
 db_cursor = db_connection.cursor()
 # db_cursor.execute(
@@ -37,12 +35,11 @@ for repo in proj:
                 "description": repo["description"],
                 "language": repo["language"],
                 "url": repo["html_url"],
-                # "image": f"https://picsum.photos/seed/{repo['name']}/800/500",
             }
         )
 
 app = Flask(__name__)
-name = "Amin"
+name = "S. M. Amin Taheri G."
 
 # SCAN blog folder
 with os.scandir("blog") as it:
@@ -89,24 +86,24 @@ def about_page():
 
 @app.route("/projects")
 def projects_page():
-    return render_template("projects.html", projects=projects)
+    return render_template("projects.html", Myname=name, projects=projects)
 
 
 @app.route("/contact")
 def contacts_page():
-    return render_template("contact.html", api=CONTACT_FORM_ACTION)
+    return render_template("contact.html", Myname=name, api=CONTACT_FORM_ACTION)
 
 
 @app.route("/blog")
 def blog_listing_page():
-    return render_template("blog_listing.html", blog_p=blog_posts)
+    return render_template("blog_listing.html", Myname=name, blog_p=blog_posts)
 
 
 @app.route("/blog/<postname>")
 def blog_entry_page(postname):
     for post in blog_posts:
         if postname == post["name"]:
-            return render_template("blog_entry.html", name=name, post=post)
+            return render_template("blog_entry.html", Myname=name, name=name, post=post)
 
     return "Blog post not found"
 
