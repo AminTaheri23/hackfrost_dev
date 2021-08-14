@@ -1,6 +1,9 @@
 {% extends "layout.html" %}
 {% block title %}About{% endblock %}
 {% block content %}
+{% for message in get_flashed_messages() %}
+        <script>alert("{{ message }}")</script>
+{% endfor %}
 <div class = "bio" id="about">
     <h1>The name is {{ Myname }}</h1>
     <img src="https://amintaheri23.github.io/img/latest.jpg" width="300" height="300">

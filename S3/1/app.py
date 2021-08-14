@@ -1,13 +1,17 @@
 import sys
 import os
 
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for, request, session, flash
 from datetime import datetime
 import requests
 import decouple
 from pathlib import Path
 import markdown
 import sqlite3
+
+from functools import wraps
+
+
 
 db_connection = sqlite3.connect("./database.db")
 db_cursor = db_connection.cursor()
@@ -40,6 +44,19 @@ for repo in proj:
 
 app = Flask(__name__)
 name = "S. M. Amin Taheri G."
+
+app.secret_key = 'sleepy dude'
+
+# login required decorator
+def login_required(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if 'logged_in' in session:
+            return f(*args, **kwargs)
+        else:
+            flash('You need to login first.')
+            return redirect(url_for('login'))
+    return wrap
 
 # SCAN blog folder
 with os.scandir("blog") as it:
@@ -82,6 +99,31 @@ def about_page():
     db_cursor.execute('SELECT * from FOODS;')
     list_of_food = db_cursor.fetchall()
     return render_template("about.html", Myname=name, list_of_food=list_of_food)
+
+@app.route('/admin')
+@login_required
+def admin():
+    return render_template('admin.html', Myname=name)  # render a template
+
+# route for handling the login page logic
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    error = None
+    if request.method == 'POST':
+        if request.form['username'] != 'smat' or request.form['password'] != 'hackfrost': # I know this is pretty basic, I'll make it better in the future.
+            error = 'Invalid Credentials. Please try again.'
+        else:
+            session['logged_in'] = True
+            flash('You were logged in.')
+            return redirect(url_for('admin'))
+    return render_template('login.html', error=error, Myname=name)
+
+@app.route('/logout')
+@login_required
+def logout():
+    session.pop('logged_in', None)
+    flash('You were logged out.')
+    return redirect(url_for('about_page'))
 
 
 @app.route("/projects")

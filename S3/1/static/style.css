@@ -69,15 +69,17 @@ nav a:hover, a:active {
 /* Profiles */
 
 .profiles {
-	margin: 2rem 0 2rem 0;
-	display: flex;
-	flex-direction: column;
+	/* margin: 2rem 0 2rem 0; */
+	display: inline;
+    place-items: right;
 	align-items: center;
 }
 .profiles i {
-	margin: 0 1rem;
+	margin: 0 0.5rem;
+    place-items: right
 }
 .profiles a {
 	text-decoration: none;
-	color: black;
+	color: white;
+    place-items: right
 }
