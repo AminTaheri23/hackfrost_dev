@@ -1,28 +1,32 @@
 {% extends "layout.html" %}
 {% block title %}project{% endblock %}
 {% block content%}
-<h1>My Projects:</h1>
-{% for project in projects %}
-<div class="project">
-	{% if project["url"] %}
-	<a href="{{ project['url'] }}">
+<div class="project_wrapper">
+	<h1>My Projects:</h1>
+	<p>The inverse list of my projects that has been updated in the last six month. These page is powered by Github API
+	</p>
+	{% for project in projects %}
+	<div class="project">
+		{% if project["url"] %}
+		<a href="{{ project['url'] }}">
+			<h3>{{ project["name"] }}</h3>
+		</a>
+		{% else %}
 		<h3>{{ project["name"] }}</h3>
-	</a>
-	{% else %}
-	<h3>{{ project["name"] }}</h3>
-	{% endif %}
+		{% endif %}
 
-	{% if project["description"] %}
-	<p class="description">{{ project["description"] }}</p>
-	{% endif %}
+		{% if project["description"] %}
+		<p class="description">{{ project["description"] }}</p>
+		{% endif %}
 
-	{% if project["language"] %}
-	<p class="language">Language: {{ project["language"] }}</p>
-	{% endif %}
+		{% if project["language"] %}
+		<p class="language">Language: {{ project["language"] }}</p>
+		{% endif %}
 
-	{% if project["image"] %}
-	<img src="{{ project['image'] }}" alt="{{ project['name'] }}" />
-	{% endif %}
+		{% if project["image"] %}
+		<img src="{{ project['image'] }}" alt="{{ project['name'] }}" />
+		{% endif %}
+	</div>
+	{% endfor %}
 </div>
-{% endfor %}
 {% endblock%}

@@ -2,17 +2,27 @@
 {% block title %}About{% endblock %}
 {% block content %}
 {% for message in get_flashed_messages() %}
-        <script>alert("{{ message }}")</script>
+<script>alert("{{ message }}")</script>
 {% endfor %}
-<div class = "bio" id="about">
-    <h1>The name is {{ Myname }}</h1>
-    <img src="https://amintaheri23.github.io/img/latest.jpg" width="300" height="300">
-</div> 
-<div class="food">
-    <ul>
-        {% for food in list_of_food %}
+<div class="bio" id="about">
+    <h1>{{ Myname }}</h1>
+    <p>You can call me Amin</p>
+    <!-- <div class="food">
+        <ul>
+            {% for food in list_of_food %}
             <li>{{food[0]}}</li>
-        {% endfor %}
-    </ul>
+            {% endfor %}
+        </ul> -->
+        <img src="https://amintaheri23.github.io/img/latest.jpg" width="300" height="300">
+        <!-- <div class = "wrapper"> -->
+            <div class="autobio">
+                <h2>
+                    Biography:
+                </h2>
+                <p>This is Amin (A as in astronaut). I am going to be a MSc student of Compute Science for the Fall 2021. This about
+                    page was made through the Hackfrost NL developer kit bootcamp. I wanted to thank all of the staff and the
+                    sponsor Verafin for this opportunity. Finally, I wanted to say that <b>Jack is awesome</b>.</p>
+                </div>
+</div>
 </div>
 {% endblock %}
