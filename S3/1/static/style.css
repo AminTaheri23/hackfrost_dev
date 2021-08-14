@@ -189,19 +189,19 @@ nav ul li {
 	padding: 1.5rem;
 }
 
-form > .field:not(:first-child) {
+.contact form > .field:not(:first-child) {
 	margin-top: 1.5rem;
 }
 
-form > .field input,
-form > .field textarea,
-form > input[type="submit"] {
+.contact form > .field input,
+.contact form > .field textarea,
+.contact form > input[type="submit"] {
 	padding: 0.5rem;
     background-color:rgb(227, 249, 255);
 	width: 100%;
 }
 
-form > .field textarea {
+.contact form > .field textarea {
 	resize: vertical;
 }
 

@@ -9,9 +9,13 @@ import decouple
 from pathlib import Path
 import markdown
 import sqlite3
-
+from werkzeug.utils import secure_filename
 from functools import wraps
 
+  
+
+UPLOAD_FOLDER = 'blog'
+ALLOWED_EXTENSIONS = {'md'}
 s=[
   {
     "id": 154373191,
@@ -2268,12 +2272,12 @@ db_cursor.close()
 db_connection.commit()
 
 CONTACT_FORM_ACTION = decouple.config("CONTACT_FORM_ACTION", default=None)
-blog_posts = []
 
 app = Flask(__name__)
 name = "S. M. Amin Taheri G."
 
 app.secret_key = 'sleepy dude'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # login required decorator
 def login_required(f):
@@ -2285,23 +2289,6 @@ def login_required(f):
             flash('You need to login first.')
             return redirect(url_for('login'))
     return wrap
-
-# SCAN blog folder
-with os.scandir("blog") as it:
-    for entry in it:
-        if entry.name.endswith(".md") and entry.is_file:
-            raw_post_date, post_name = entry.name.split("_")
-            post_name = post_name.rstrip(".md")
-
-            date = datetime.strptime(raw_post_date, "%Y-%m-%d")
-            html = markdown.markdown(Path(entry.path).read_text())
-
-            blog_posts.append({
-                "name": post_name,
-                "date": date,
-                "html": html
-            })
-
 
 def date_returner_dict(ict):
     """This function will get a dict and return the 'date' values
@@ -2318,13 +2305,25 @@ def date_returner_dict(ict):
     if "updated_at" in ict.keys():
         return ict["updated_at"]
 
+blog_posts = []
+with os.scandir("blog") as it:
+    for entry in it:
+        if entry.name.endswith(".md") and entry.is_file:
+            raw_post_date, post_name = entry.name.split("_")
+            post_name = post_name.rstrip(".md")
 
+            date = datetime.strptime(raw_post_date, "%Y-%m-%d")
+            html = markdown.markdown(Path(entry.path).read_text())
+
+            blog_posts.append({
+                "name": post_name,
+                "date": date,
+                "html": html
+            })
 # Sort the blog posts based on time (reversed)
 blog_posts.sort(key=date_returner_dict, reverse=True)
 
 # Routes
-
-
 @app.route("/")
 def about_page():
     db_cursor = sqlite3.connect("./database.db").cursor()
@@ -2332,10 +2331,6 @@ def about_page():
     list_of_food = db_cursor.fetchall()
     return render_template("about.html", Myname=name, list_of_food=list_of_food)
 
-@app.route('/admin')
-@login_required
-def admin():
-    return render_template('admin.html', Myname=name)  # render a template
 
 # route for handling the login page logic
 @app.route('/login', methods=['GET', 'POST'])
@@ -2391,9 +2386,6 @@ def contacts_page():
     return render_template("contact.html", Myname=name, api=CONTACT_FORM_ACTION)
 
 
-@app.route("/blog")
-def blog_listing_page():
-    return render_template("blog_listing.html", Myname=name, blog_p=blog_posts)
 
 
 @app.route("/blog/<postname>")
@@ -2403,6 +2395,63 @@ def blog_entry_page(postname):
             return render_template("blog_entry.html", Myname=name, name=name, post=post)
 
     return "Blog post not found"
+
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.route('/admin', methods=['GET', 'POST'])
+@login_required
+def admin():
+     # SCAN blog folder
+    
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit an empty part without filename
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(file_path)
+            if filename.endswith(".md") :
+                raw_post_date, post_name = filename.split("_")
+                post_name = post_name.rstrip(".md")
+
+                date = datetime.strptime(raw_post_date, "%Y-%m-%d")
+                html = markdown.markdown(Path(file_path).read_text())
+
+                blog_posts.append({
+                    "name": post_name,
+                    "date": date,
+                    "html": html
+                })
+            blog_posts.sort(key=date_returner_dict, reverse=True)
+            
+            return redirect(url_for('uploaded_file',
+                                    filename=filename))
+    return render_template("admin.html", Myname=name)
+
+from flask import send_from_directory
+
+@app.route('/admin/<filename>')
+@login_required
+def uploaded_file(filename):
+    flash(f"File {filename} has succefuly uploaded")
+    return send_from_directory(app.config['UPLOAD_FOLDER'],
+                               filename)
+
+@app.route("/blog")
+def blog_listing_page():
+    return render_template("blog_listing.html", Myname=name, blog_p=blog_posts)
 
 
 if __name__ == "__main__":
