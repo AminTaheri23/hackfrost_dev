@@ -2,11 +2,11 @@
 {% block title %}Blog{% endblock %}
 {% block content %}
 <div  class = "blog" id="blog">
-    <h1>Blog</h1>
+    <h1 class="text-center">Blog</h1>
     <hr>
     <ul>
         {% for post in blog_p %}
-            <a href="/blog/{{ post['name'] }}">
+            <a href="/blog/{{ post['slug'] }}">
                 <li class="blog-post">
                     <div class = "blog-name"><b>{{ post.name }}</b></div>
                     <div class= "blog-date">{{ post.date.strftime("%B %d, %Y") }}</div>
